@@ -19,26 +19,32 @@
 BOOL enabled;
 BOOL dockEnabled;
 BOOL labelEnabled;
+BOOL dpkgInvalid = false;
 
+%group main
 %hook SBDockView
 
 -(void)setBackgroundAlpha: (double)arg1 {
 	%orig;
 	if(enabled && dockEnabled) {
-		MSHookIvar<SBWallpaperEffectView *>(self, "_backgroundView").alpha = 0.0f;
+		if(arg1 == 0.0) {
+			%orig(0.0);
+		} else {
+			MSHookIvar<SBWallpaperEffectView *>(self, "_backgroundView").alpha = 0.0f;
 
-		NSTimeInterval milisecondedDate = ([[NSDate date] timeIntervalSince1970] * 1000);
-		NSNumber *timeStampObj = [NSNumber numberWithLong: milisecondedDate];
-		long long int timestamp = [timeStampObj longLongValue];
-		float hue = fmod((timestamp / 15000.0),1.0);
-		UIColor *color = [UIColor colorWithHue: hue saturation: 1 brightness: 1 alpha: 1];
-		self.backgroundColor = color;
+			NSTimeInterval milisecondedDate = ([[NSDate date] timeIntervalSince1970] * 1000);
+			NSNumber *timeStampObj = [NSNumber numberWithLong: milisecondedDate];
+			long long int timestamp = [timeStampObj longLongValue];
+			float hue = fmod((timestamp / 15000.0),1.0);
+			UIColor *color = [UIColor colorWithHue: hue saturation: 1 brightness: 1 alpha: 1];
+			self.backgroundColor = color;
 
-		dispatch_async(dispatch_get_main_queue(), ^{
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.05 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-				[self setBackgroundAlpha:nil];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.05 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+					[self setBackgroundAlpha:nil];
+				});
 			});
-		});
+		}
 	} else {
 
 	}
@@ -95,6 +101,31 @@ BOOL labelEnabled;
 	}
 }
 %end
+%end
+
+%group IntegrityFail
+
+%hook SpringBoard
+
+-(void)applicationDidFinishLaunching: (id)arg1 {
+	%orig;
+	if (!dpkgInvalid) return;
+	UIAlertController *alertController = [UIAlertController
+	                                      alertControllerWithTitle:@"😡😡😡"
+	                                      message:@"The build of Chromaaa you're using comes from an untrusted source. Pirate repositories can distribute malware and you will get subpar user experience using any tweaks from them.\nRemember: Chromaaa is free. Uninstall this build and install the proper version of Chromaaa from:\nhttps://repo.conorthedev.com/\n"
+	                                      preferredStyle:UIAlertControllerStyleAlert
+	                                     ];
+
+	[alertController addAction:[UIAlertAction actionWithTitle:@"OK!" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+	                                    [((UIApplication*)self).keyWindow.rootViewController dismissViewControllerAnimated:YES completion:NULL];
+				    }]];
+
+	[((UIApplication*)self).keyWindow.rootViewController presentViewController:alertController animated:YES completion:NULL];
+}
+
+%end
+
+%end
 
 static void loadPrefs() {
 	NSMutableDictionary *settings = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.conorthedev.chromaaaprefs.plist"];
@@ -105,6 +136,14 @@ static void loadPrefs() {
 }
 
 %ctor {
+	dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/com.conorthedev.chromaaa.list"];
+
+	if (dpkgInvalid) {
+		%init(IntegrityFail);
+		return;
+	} else {
+		%init(main);
+	}
 	loadPrefs();
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)loadPrefs, CFSTR("com.conorthedev.chromaaaprefs/saved"), NULL, CFNotificationSuspensionBehaviorCoalesce);
 }
