@@ -1,0 +1,11 @@
+Package: com.conorthedev.chromaaa
+Name: Chromaaa
+Depends: mobilesubstrate, ws.hbang.common (>= 1.11)
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Who said RGB was just for computer peripherals?
+Maintainer: ConorTheDev
+Author: ConorTheDev
+Section: Tweaks
+Icon: https://repo.conorthedev.com/img/chromaaa.png
+SileoDepiction: https://repo.conorthedev.com/SileoDepictions/Chromaaa

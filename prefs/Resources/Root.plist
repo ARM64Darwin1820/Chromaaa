@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>headerCellClass</key>
+				<string>HBPackageNameHeaderCell</string>
+				<key>packageIdentifier</key>
+				<string>com.conorthedev.chromaaa</string>
+				<key>backgroundGradientColors</key>
+				<array>
+					<string>#7737ff</string>
+					<string>#7737ff</string>
+				</array>
+			</dict>
+			<dict>
+				<key>cellClass</key>
+				<string>HBTwitterCell</string>
+				<key>label</key>
+				<string>Conor</string>
+				<key>user</key>
+				<string>ConorTheDev</string>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSSwitchCell</string>
+				<key>default</key>
+				<true />
+				<key>defaults</key>
+				<string>com.conorthedev.chromaaaprefs</string>
+				<key>label</key>
+				<string>Enabled</string>
+				<key>key</key>
+				<string>kEnabled</string>
+				<key>alternateColors</key>
+				<true />
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>label</key>
+				<string>SpringBoard Options</string>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSSwitchCell</string>
+				<key>default</key>
+				<true />
+				<key>defaults</key>
+				<string>com.conorthedev.chromaaaprefs</string>
+				<key>label</key>
+				<string>Chromify Labels</string>
+				<key>key</key>
+				<string>kLabelEnabled</string>
+				<key>alternateColors</key>
+				<true />
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSSwitchCell</string>
+				<key>default</key>
+				<true />
+				<key>defaults</key>
+				<string>com.conorthedev.chromaaaprefs</string>
+				<key>label</key>
+				<string>Chromify Dock</string>
+				<key>key</key>
+				<string>kDockEnabled</string>
+				<key>alternateColors</key>
+				<true />
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>label</key>
+				<string>Other</string>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>label</key>
+				<string>Credits</string>
+				<key>detail</key>
+				<string>ChromaaaCreditsController</string>
+			</dict>
+			<dict>
+				<key>cellClass</key>
+				<string>HBLinkTableCell</string>
+				<key>label</key>
+				<string>My Website</string>
+				<key>url</key>
+				<string>https://conorthedev.com/</string>
+			</dict>
+			<dict>
+				<key>cellClass</key>
+				<string>HBLinkTableCell</string>
+				<key>label</key>
+				<string>Support me</string>
+				<key>url</key>
+				<string>https://patreon.com/ConorTheDev</string>
+			</dict>
+		</array>
+		<key>title</key>
+		<string>Chromaaa</string>
+	</dict>
+</plist>
